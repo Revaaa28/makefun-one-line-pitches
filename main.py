@@ -26,6 +26,11 @@ def main() -> None:
     assert pitch == pitch.strip(), "pitch must not have surrounding whitespace"
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(pitch, encoding="utf-8")
+    # Read back what was written: the gate scores the file, not the
+    # constant, so confirm the file itself is exactly one valid line.
+    written = OUTPUT_PATH.read_text(encoding="utf-8")
+    assert written == pitch, "written file differs from the pitch"
+    assert "\n" not in written, "written file must be exactly one line"
     print(pitch)
     print(f"chars: {len(pitch)} (limit {MAX_CHARS})")
 
